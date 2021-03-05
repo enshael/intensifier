@@ -58,11 +58,11 @@ window.onload = function() {
 		gif.start();
 		gif.setSize(canvas.width, canvas.height);
 
+		var spliceHeight = Math.ceil(canvas.height / settings.numSplices);
+
 		for(var i = 0; i < settings.numFrames; i++) {
 				
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-			var spliceHeight = Math.floor(canvas.height / settings.numSplices);
 
 			for(var j = 0; j <= settings.numSplices; j++) {
 				var shift = {
@@ -98,7 +98,7 @@ window.onload = function() {
 	}
 
 	// Hard coded image for now
-	createImage('images/jarder02.png');
+	createImage('https://github.com/enshael/intensifier/blob/master/images/jarder02.png?raw=true');
 
 	function handleDragOver(e) {
 		e.stopPropagation();

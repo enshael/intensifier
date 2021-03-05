@@ -98,7 +98,7 @@ window.onload = function() {
 	}
 
 	// Hard coded image for now
-	createImage('https://raw.githubusercontent.com/enshael/intensifier/master/images/jarder02.png');
+	//createImage('https://raw.githubusercontent.com/enshael/intensifier/master/images/jarder02.png');
 
 	function handleDragOver(e) {
 		e.stopPropagation();

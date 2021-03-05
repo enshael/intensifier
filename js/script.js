@@ -5,9 +5,11 @@ var constants = {
 }
 
 var settings = {
-	numFrames : 6,
+	numFrames : 25,
+	numSplices: 128,
 	label : 'TURN DOWN FOR WHAT',
-	delay : 33
+	delay : 20,
+	frameOffset: 10
 }
 
 window.onload = function() {
@@ -40,6 +42,17 @@ window.onload = function() {
 		image.src = url;
 	}
 
+	var sineFunction = function(time) {
+		var amplitude = 20;
+
+		// in ms
+		var period = settings.numFrames*settings.frameOffset;
+
+		var centerX = 0;
+		var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
+		return nextX;
+	}
+
 	var createFrames = function() {
 
 		gif.start();
@@ -49,16 +62,18 @@ window.onload = function() {
 				
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-			var shift = {
-				x : Math.random() * 20 - 40,
-				y : Math.random() * 20 - 40
-			}
-			var pos = {
-				x : canvas.width + 40,
-				y : canvas.height + 40
+			var spliceHeight = Math.floor(canvas.height / settings.numSplices);
+
+			for(var j = 0; j <= settings.numSplices; j++) {
+				var shift = {
+					x : sineFunction((i*settings.frameOffset)+j),
+					y : j*spliceHeight
+				}
+
+				ctx.drawImage(image, 0, shift.y, canvas.width, spliceHeight, shift.x, shift.y, canvas.width, spliceHeight);
 			}
 
-			ctx.drawImage(image, shift.x, shift.y, pos.x, pos.y);
+
 
 			// ctx.fillStyle = "#FFF";
 			// ctx.font = "bold 22px Arial";
@@ -83,7 +98,7 @@ window.onload = function() {
 	}
 
 	// Hard coded image for now
-	//createImage('images/sloth.jpg');
+	createImage('images/jarder02.png');
 
 	function handleDragOver(e) {
 		e.stopPropagation();

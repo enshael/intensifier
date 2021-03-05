@@ -7,6 +7,7 @@ var constants = {
 var settings = {
 	numFrames : 25,
 	numSplices: 128,
+	amplitude: 20,
 	label : 'TURN DOWN FOR WHAT',
 	delay : 20,
 	frameOffset: 10
@@ -43,7 +44,7 @@ window.onload = function() {
 	}
 
 	var sineFunction = function(time) {
-		var amplitude = 20;
+		var amplitude = settings.amplitude;
 
 		// in ms
 		var period = settings.numFrames*settings.frameOffset;
@@ -87,6 +88,7 @@ window.onload = function() {
 			var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
 			gif.addFrame(imageData.data, true);
+
 		}
 
 			gif.finish();
@@ -98,7 +100,7 @@ window.onload = function() {
 	}
 
 	// Hard coded image for now
-	//createImage('https://raw.githubusercontent.com/enshael/intensifier/master/images/jarder02.png');
+	// createImage('images/jarder02.png');
 
 	function handleDragOver(e) {
 		e.stopPropagation();
@@ -133,30 +135,24 @@ window.onload = function() {
 }
 
 $(function() {
+	const frames = document.querySelector('[name=frames]');
+	const framesoutput = document.querySelector('#frames-output');
 
-    var $post = $('#upload');
-    var $img = $('#image');
+	framesoutput.textContent = frames.value = settings.numFrames;
 
-    $post.click(function(e) {
-    	
-    	e.preventDefault();
-		e.stopPropagation();
 
-    	$.ajax({
-			url: 'https://api.imgur.com/3/image',
-			type: 'POST',
-			headers: {
-				Authorization: 'CLIENT-ID e781a07d0760a0a'
-			},
-			data: {
-				type: 'base64',
-				image: $img.attr('src').split(',')[1]
-			},
-			dataType: 'json'
-		}).success(function(result) {
-			window.location = 'https://imgur.com/gallery/' + result.data.id;
-		}).error(function() {
-			alert('Could not reach api.imgur.com. Sorry :(');
-		});
-    });
+	frames.addEventListener('input', function() {
+		framesoutput.textContent = frames.value;
+		settings.numFrames = frames.value;
+	});
+
+	const amplitude = document.querySelector('[name=amplitude]');
+	const amplitudeoutput = document.querySelector('#amplitude-output');
+
+	amplitudeoutput.textContent = amplitude.value = settings.amplitude;
+
+	amplitude.addEventListener('input', function() {
+		amplitudeoutput.textContent = amplitude.value;
+		settings.amplitude = amplitude.value;
+	});
 });
